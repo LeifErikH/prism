@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/header.svg" alt="/prism - 10-Framework Problem Solver" width="800"/>
+  <img src="assets/header.png" alt="/prism - 10-Framework Problem Solver" width="800"/>
 </p>
 
 <p align="center">
