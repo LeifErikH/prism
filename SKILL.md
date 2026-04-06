@@ -35,6 +35,8 @@ Parse the user's input after `/prism`:
 
 - `/prism` (no args) → **Full Pipeline** (interactive, all 10 frameworks)
 - `/prism quick` → **Quick Decision** (Reversibility test → calibrated depth)
+- `/prism review` → **Review** (analyze run history, surface patterns)
+- `/prism improve` → **Improve** (propose SKILL.md changes based on run data)
 - `/prism first-principles` → Run only Framework 1
 - `/prism mental-models` → Run only Framework 2
 - `/prism inversion` → Run only Framework 3
@@ -452,3 +454,127 @@ When the user runs `/prism [framework-name]`:
 - **Show your work.** Every claim needs the reasoning chain visible.
 - **Time-box yourself.** The full pipeline should be thorough but not endless. Each framework gets one focused pass.
 - **Respect the user's context.** They know their domain better than you. When your analysis conflicts with their stated constraints, flag the conflict but don't override their judgment.
+
+---
+
+## Post-Run Feedback (runs after every pipeline/framework completion)
+
+After delivering the synthesis (full pipeline) or framework output (single framework),
+ask the user for a quick rating using AskUserQuestion:
+
+> **Quick feedback** — helps /prism get better over time.
+>
+> How useful was this analysis?
+
+Options:
+- A) Nailed it — changed how I'm thinking about this
+- B) Useful — surfaced things I hadn't considered
+- C) Okay — some good points but partly generic
+- D) Weak — didn't tell me much I didn't already know
+- E) Skip
+
+Then log the run:
+
+```bash
+mkdir -p ~/.prism
+echo '{"ts":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'","mode":"MODE","frameworks":"FRAMEWORKS","problem_type":"PROBLEM_TYPE","problem_summary":"SUMMARY","rating":"RATING","weak_frameworks":"WEAK","strong_frameworks":"STRONG","notes":"NOTES"}' >> ~/.prism/runs.jsonl
+```
+
+Replace the placeholders:
+- `MODE`: `full`, `quick`, or the single framework name
+- `FRAMEWORKS`: comma-separated list of frameworks that ran
+- `PROBLEM_TYPE`: your best classification — `debugging`, `architecture`, `product`, `business`, `career`, `strategy`, `other`
+- `SUMMARY`: 1-sentence problem description (no sensitive details, just the category/shape)
+- `RATING`: `nailed_it`, `useful`, `okay`, `weak`, or `skip`
+- `WEAK`: comma-separated frameworks that produced generic/unhelpful output (your assessment)
+- `STRONG`: comma-separated frameworks that produced the most valuable insight
+- `NOTES`: any specific observation about what worked or didn't (empty string if none)
+
+If the user picks E (skip), still log the run with `rating: "skip"` and empty weak/strong/notes.
+
+---
+
+## Review Mode (`/prism review`)
+
+Read the run history and surface patterns:
+
+```bash
+if [ -f ~/.prism/runs.jsonl ]; then
+  TOTAL=$(wc -l < ~/.prism/runs.jsonl | tr -d ' ')
+  echo "TOTAL_RUNS: $TOTAL"
+  cat ~/.prism/runs.jsonl
+else
+  echo "NO_RUNS"
+fi
+```
+
+If `NO_RUNS`, say: "No run data yet. Use /prism on a few problems first, then come back."
+
+If runs exist, analyze and present:
+
+1. **Run count** by mode (full pipeline vs quick vs individual frameworks)
+2. **Rating distribution** (how many nailed_it / useful / okay / weak)
+3. **Problem type distribution** (what kinds of problems /prism is being used for)
+4. **Framework performance** — for each of the 10 frameworks:
+   - Times it appeared in `strong_frameworks` (high signal)
+   - Times it appeared in `weak_frameworks` (needs work)
+   - Signal ratio: strong / (strong + weak)
+5. **Patterns** — call out:
+   - Any framework with signal ratio < 0.3 (consistently weak)
+   - Any framework never listed as strong (invisible value)
+   - Any problem type with mostly "okay" or "weak" ratings (blind spot)
+   - Most common problem type (is the skill being used as intended?)
+6. **Logged notes** — surface any free-text observations from past runs
+
+Present as a concise report. End with: "Run `/prism improve` to generate specific SKILL.md changes based on this data."
+
+---
+
+## Improve Mode (`/prism improve`)
+
+Reads run history + current SKILL.md and proposes targeted improvements.
+
+```bash
+if [ -f ~/.prism/runs.jsonl ]; then
+  TOTAL=$(wc -l < ~/.prism/runs.jsonl | tr -d ' ')
+  echo "TOTAL_RUNS: $TOTAL"
+  cat ~/.prism/runs.jsonl
+else
+  echo "NO_RUNS"
+fi
+```
+
+If fewer than 5 runs, say: "Need at least 5 runs with feedback before proposing changes. You have [N]. Keep using /prism and rating the output."
+
+If 5+ runs exist:
+
+1. Run the Review analysis internally (don't print it, just use the data)
+2. For each framework with signal ratio < 0.5 or frequently in `weak_frameworks`:
+   - Diagnose WHY it's weak based on the problem types and notes
+   - Propose a specific change to that framework's Process, Output format, or Rules
+3. For problem types with consistently low ratings:
+   - Propose a new rule, additional step, or prompt adjustment
+4. Check if any notes mention a missing framework or capability — propose additions
+5. Present all proposed changes as a numbered list with:
+   - What to change
+   - Why (based on the data)
+   - The specific edit (old text → new text)
+
+Use AskUserQuestion:
+
+> Here are [N] proposed improvements based on [X] runs. Which do you want to apply?
+
+Options:
+- A) Apply all
+- B) Let me pick (show numbered list)
+- C) Skip — I'll review manually
+
+If A: Apply all edits to SKILL.md, then copy to `~/.claude/skills/prism/SKILL.md`
+If B: Show the list, let user pick by number, apply selected edits
+If C: Do nothing
+
+After applying changes, log the improvement:
+
+```bash
+echo '{"ts":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'","event":"improvement","changes_applied":N,"based_on_runs":TOTAL,"weak_frameworks":"LIST"}' >> ~/.prism/runs.jsonl
+```
