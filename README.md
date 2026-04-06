@@ -120,6 +120,21 @@ NEXT ACTION:        The literal next thing to do, today
 DECISION DEADLINE:  When to decide by
 ```
 
+## Self-Improving
+
+`/prism` tracks its own performance. After every run, it asks for a quick rating and logs which frameworks were strong vs weak. Over time, this builds a dataset of real usage signal.
+
+```
+/prism review    — see what's working and what's not
+/prism improve   — propose SKILL.md edits based on actual run data
+```
+
+`/prism review` surfaces patterns: which frameworks consistently produce generic output, which problem types get low ratings, and what users flag in their notes.
+
+`/prism improve` reads the run log, diagnoses weak spots, and proposes targeted edits. You pick which changes to apply. The skill gets better from real usage, not guesswork.
+
+All data stays local in `~/.prism/runs.jsonl`. Nothing is sent anywhere.
+
 ## Origins
 
 The core 5 frameworks (First Principles, Mental Models, Inversion, Second Order, Systems) are adapted from [Alex Prompter's thread](https://x.com/alex_prompter) on Elon Musk's thinking frameworks.
