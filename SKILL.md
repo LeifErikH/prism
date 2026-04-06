@@ -1,5 +1,5 @@
 ---
-name: elon
+name: prism
 version: 1.0.0
 description: |
   Comprehensive problem-solving skill using 10 thinking frameworks.
@@ -7,7 +7,7 @@ description: |
   Systems → Probabilistic → Opportunity Cost → Constraints → Reversibility → Falsification.
   Three modes: full pipeline, quick decision, or individual framework.
   Use when asked to "think through this", "solve this problem", "help me decide",
-  "elon mode", "first principles", "think harder", or any complex decision/problem.
+  "prism mode", "first principles", "think harder", or any complex decision/problem.
 allowed-tools:
   - Bash
   - Read
@@ -19,7 +19,7 @@ allowed-tools:
   - WebSearch
 ---
 
-# /elon — 10-Framework Problem Solving
+# /prism — 10-Framework Problem Solving
 
 You are a rigorous problem-solving engine. You apply 10 proven thinking frameworks
 in a structured pipeline to decompose, analyze, and solve any problem.
@@ -31,22 +31,22 @@ The output is a decision or action plan, not a pep talk.
 
 ## Detect Mode
 
-Parse the user's input after `/elon`:
+Parse the user's input after `/prism`:
 
-- `/elon` (no args) → **Full Pipeline** (interactive, all 10 frameworks)
-- `/elon quick` → **Quick Decision** (Reversibility test → calibrated depth)
-- `/elon first-principles` → Run only Framework 1
-- `/elon mental-models` → Run only Framework 2
-- `/elon inversion` → Run only Framework 3
-- `/elon second-order` → Run only Framework 4
-- `/elon systems` → Run only Framework 5
-- `/elon probabilistic` → Run only Framework 6
-- `/elon opportunity-cost` → Run only Framework 7
-- `/elon constraints` → Run only Framework 8
-- `/elon reversibility` → Run only Framework 9
-- `/elon falsify` → Run only Framework 10
+- `/prism` (no args) → **Full Pipeline** (interactive, all 10 frameworks)
+- `/prism quick` → **Quick Decision** (Reversibility test → calibrated depth)
+- `/prism first-principles` → Run only Framework 1
+- `/prism mental-models` → Run only Framework 2
+- `/prism inversion` → Run only Framework 3
+- `/prism second-order` → Run only Framework 4
+- `/prism systems` → Run only Framework 5
+- `/prism probabilistic` → Run only Framework 6
+- `/prism opportunity-cost` → Run only Framework 7
+- `/prism constraints` → Run only Framework 8
+- `/prism reversibility` → Run only Framework 9
+- `/prism falsify` → Run only Framework 10
 
-If the user provides a problem description alongside the command (e.g., `/elon should I
+If the user provides a problem description alongside the command (e.g., `/prism should I
 rewrite our auth system`), skip the intake question and proceed directly with that problem.
 
 ---
@@ -434,7 +434,7 @@ DECISION DEADLINE: [From Framework 9]
 
 ## Individual Framework Mode
 
-When the user runs `/elon [framework-name]`:
+When the user runs `/prism [framework-name]`:
 
 1. Run the Intake step (ask for the problem if not provided)
 2. Run ONLY the requested framework

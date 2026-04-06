@@ -1,11 +1,10 @@
 <p align="center">
-  <img src="assets/header.svg" alt="/elon - 10-Framework Problem Solver" width="800"/>
+  <img src="assets/header.svg" alt="/prism - 10-Framework Problem Solver" width="800"/>
 </p>
 
 <p align="center">
   <strong>A Claude Code skill that runs 10 thinking frameworks on any problem.</strong><br/>
-  First Principles. Mental Models. Inversion. Second Order. Systems.<br/>
-  Probabilistic. Opportunity Cost. Constraints. Reversibility. Falsification.
+  One input. Ten lenses. One answer that survives all of them.
 </p>
 
 <p align="center">
@@ -13,6 +12,7 @@
   <a href="#frameworks">Frameworks</a> &bull;
   <a href="#usage">Usage</a> &bull;
   <a href="#why">Why</a> &bull;
+  <a href="#origins">Origins</a> &bull;
   <a href="LICENSE">MIT License</a>
 </p>
 
@@ -20,20 +20,20 @@
 
 ## Why
 
-Most people solve problems with whatever framework they happen to know. That usually means one lens, one blind spot, one predictable mistake.
+Most people solve problems with whatever framework they happen to know. One lens, one blind spot, one predictable mistake.
 
 The best problem solvers (Musk, Munger, Bezos) don't think harder. They think through more lenses. First principles to strip assumptions. Inversion to map failures. Probabilistic thinking to quantify uncertainty. Systems thinking to find leverage. They run the same problem through multiple frameworks until the answer that survives all of them emerges.
 
-`/elon` does that in one command. Ten frameworks, applied sequentially, each building on the last. The output isn't a vague recommendation. It's a structured analysis with concrete artifacts: assumption lists, failure mode tables, probability ranges, system maps, opportunity cost comparisons, and a falsification test that tries to break its own conclusion.
+Like light through a prism, `/prism` splits a single problem into 10 distinct perspectives. The output isn't a vague recommendation. It's a structured analysis with concrete artifacts: assumption lists, failure mode tables, probability ranges, system maps, opportunity cost comparisons, and a falsification test that tries to break its own conclusion.
 
-It works on anything: product decisions, architecture choices, career moves, business strategy, hiring, pricing, market entry.
+It works on anything: debugging, architecture decisions, product calls, business strategy, career moves, pricing, market entry.
 
 ## Install
 
 ### One-line install
 
 ```bash
-mkdir -p ~/.claude/skills/elon && curl -fsSL https://raw.githubusercontent.com/LeifErikH/elon-skill/main/SKILL.md -o ~/.claude/skills/elon/SKILL.md
+mkdir -p ~/.claude/skills/prism && curl -fsSL https://raw.githubusercontent.com/LeifErikH/prism/main/SKILL.md -o ~/.claude/skills/prism/SKILL.md
 ```
 
 ### Manual install
@@ -42,28 +42,28 @@ mkdir -p ~/.claude/skills/elon && curl -fsSL https://raw.githubusercontent.com/L
 2. Copy it to your Claude Code skills directory:
 
 ```bash
-mkdir -p ~/.claude/skills/elon
-cp SKILL.md ~/.claude/skills/elon/SKILL.md
+mkdir -p ~/.claude/skills/prism
+cp SKILL.md ~/.claude/skills/prism/SKILL.md
 ```
 
-3. Restart Claude Code or start a new conversation. `/elon` will appear in your skill list.
+3. Restart Claude Code or start a new conversation. `/prism` will appear in your skill list.
 
 ### Verify
 
-In any Claude Code session, you should see `elon` listed when Claude shows available skills.
+In any Claude Code session, you should see `prism` listed when Claude shows available skills.
 
 ## Usage
 
 ### Full pipeline (all 10 frameworks)
 
 ```
-/elon Should I rewrite our monolith into microservices?
+/prism Should I rewrite our monolith into microservices?
 ```
 
 or just:
 
 ```
-/elon
+/prism
 ```
 
 ...and it will ask you for the problem.
@@ -71,7 +71,7 @@ or just:
 ### Quick decision mode
 
 ```
-/elon quick Should I switch from Postgres to MongoDB for this feature?
+/prism quick Should I switch from Postgres to MongoDB for this feature?
 ```
 
 Runs the reversibility test first. If it's a two-way door (you can undo it cheaply), you get a fast answer. If it's a one-way door, it automatically runs the full pipeline.
@@ -79,10 +79,10 @@ Runs the reversibility test first. If it's a two-way door (you can undo it cheap
 ### Single framework
 
 ```
-/elon inversion What could go wrong with launching in Europe first?
-/elon systems Why does our deploy process keep breaking?
-/elon constraints What's slowing down our sprint velocity?
-/elon opportunity-cost Should I build this feature or fix tech debt?
+/prism inversion What could go wrong with launching in Europe first?
+/prism systems Why does our deploy process keep breaking?
+/prism constraints What's slowing down our sprint velocity?
+/prism opportunity-cost Should I build this feature or fix tech debt?
 ```
 
 Available frameworks: `first-principles`, `mental-models`, `inversion`, `second-order`, `systems`, `probabilistic`, `opportunity-cost`, `constraints`, `reversibility`, `falsify`
