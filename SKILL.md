@@ -85,6 +85,35 @@ Run Framework 9 (Reversibility Test) first:
 Run all 10 frameworks in sequence. Each framework produces a titled section with
 concrete output. Build on previous frameworks, don't repeat analysis.
 
+### Phase 0: NAIVE READING (Baseline)
+
+Before any framework runs, generate a fast, surface-level reading of the problem.
+This serves two purposes: (1) an anchor to measure whether frameworks add insight
+beyond the obvious, and (2) a target for frameworks to push against.
+
+**Process:**
+1. Read the problem as a smart generalist would — no frameworks, no deep analysis
+2. Produce 3-5 sentences: what's the obvious answer? What would most people say?
+3. List 3-5 key claims embedded in this naive reading
+
+**Output format:**
+```
+NAIVE READING:
+[3-5 sentence surface-level take — the "default" answer]
+
+KEY CLAIMS:
+1. [claim]
+2. [claim]
+3. [claim]
+```
+
+**Rules:**
+- Keep it deliberately shallow. This is the control group, not the analysis.
+- Do not try to be clever. The naive reading should reflect conventional wisdom.
+- This section should be SHORT. 100 words max.
+
+---
+
 ### Framework 1: DECOMPOSE (First Principles)
 
 Strip the problem to fundamental truths. Kill every assumption.
@@ -407,9 +436,41 @@ VERDICT:
 
 ---
 
+## Convergence Audit
+
+After Framework 10 completes and before Synthesis, scan all framework outputs for
+high-agreement patterns. One LLM running 10 frameworks in shared context has no
+statistical independence — convergence may reflect shared blind spots, not truth.
+
+**Process:**
+1. Identify any claim or recommendation that 7+ frameworks agree on
+2. For each high-consensus claim, check: does it differ from the naive reading?
+3. If it matches the naive reading, flag it — the frameworks may have just
+   rubber-stamped the obvious rather than adding insight
+4. If it differs from the naive reading, it's more likely genuine signal
+5. For any flagged claims, note what a dissenting view would look like
+
+**Output format:**
+```
+CONVERGENCE AUDIT:
+- [Claim]: [N]/10 frameworks agree
+  Naive reading match: [yes/no]
+  Status: [✓ genuine signal / ⚠ possible shared blind spot]
+  Dissent would look like: [what a contrary view would argue]
+```
+
+**Rules:**
+- High consensus (7+/10) is a trigger for scrutiny, not automatic rejection
+- If a claim matches the naive reading AND has high consensus, treat with suspicion
+- If a claim diverges from the naive reading AND has high consensus, that's likely real
+- If ALL frameworks agree on everything, something went wrong — note this explicitly
+
+---
+
 ## Synthesis
 
-After all frameworks complete (in Full Pipeline mode), deliver a final synthesis:
+After the Convergence Audit, deliver a final synthesis. Any claims flagged as
+"possible shared blind spot" must be acknowledged in RISKS ACCEPTED.
 
 ```
 ═══════════════════════════════════════════
@@ -423,6 +484,8 @@ RECOMMENDATION: [Clear, specific action]
 KEY INSIGHT: [The single most important non-obvious finding]
 
 CONFIDENCE: [X/10] — [why this level]
+
+BLIND SPOT CHECK: [Any convergence audit flags that affect confidence]
 
 RISKS ACCEPTED: [What could go wrong that you're choosing to accept]
 
@@ -450,6 +513,7 @@ When the user runs `/prism [framework-name]`:
 - **Be concrete.** Name files, numbers, dates, people, dollars. Never "consider the impact" without saying what the impact is.
 - **Be honest.** If the analysis says "don't do this," say it. Don't soften bad news.
 - **Build sequentially.** Each framework should reference findings from previous ones. Don't repeat analysis.
+- **Diverge from the naive reading.** In the full pipeline, each framework must produce at least one finding that goes beyond or challenges the naive reading. If a framework fully agrees with the naive reading, it added nothing — note that explicitly.
 - **No motivation.** This is analysis, not coaching. Zero inspirational quotes.
 - **Show your work.** Every claim needs the reasoning chain visible.
 - **Time-box yourself.** The full pipeline should be thorough but not endless. Each framework gets one focused pass.
